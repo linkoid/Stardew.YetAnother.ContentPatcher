@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Linkoid.Stardew.YetAnotherContentPatcher</AssemblyName>
+    <RootNamespace>Linkoid.Stardew.YetAnotherContentPatcher</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
