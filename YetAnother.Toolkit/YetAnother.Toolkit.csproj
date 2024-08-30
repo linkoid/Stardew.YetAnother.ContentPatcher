@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Linkoid.Stardew.YetAnother.Toolkit</AssemblyName>
+    <RootNamespace>Linkoid.Stardew.YetAnother.Toolkit</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <EnableHarmony>true</EnableHarmony>
+    <EnableModDeploy>false</EnableModDeploy>
+    <EnableModZip>false</EnableModZip>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!--<UniqueID>Linkoid.YetAnother.Toolkit</UniqueID>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Linkoid.Stardew.ModBuildConfig" Version="5.0.0-rc.1" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="YamlDotNet" Version="16.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SMAPI.Toolkit" Publicize="true" Private="false" />
+    <Reference Include="StardewModdingAPI" Publicize="true" Private="false" />
+  </ItemGroup>
+
+</Project>
+ 

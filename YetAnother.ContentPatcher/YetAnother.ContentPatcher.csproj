@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Linkoid.Stardew.YetAnother.ContentPatcher</AssemblyName>
+    <RootNamespace>Linkoid.Stardew.YetAnother.ContentPatcher</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <EnableHarmony>true</EnableHarmony>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UniqueID>Linkoid.YetAnother.ContentPatcher</UniqueID>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Linkoid.Stardew.ModBuildConfig" Version="5.0.0-rc.1" />
+    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.3.1" ExcludeAssets="runtime" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" ExcludeAssets="runtime" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YetAnother.Toolkit\YetAnother.Toolkit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SMAPIDependency Include="Pathoschild.ContentPatcher" />
+    <Reference Include="ContentPatcher" Private="false" Publicize="true">
+      <HintPath>$(GamePath)\Mods\ContentPatcher\ContentPatcher.dll</HintPath>
+    </Reference>
+    <Reference Include="StardewModdingAPI" Publicize="true" Private="false" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+<Project Sdk="Linkoid.Stardew.ModBuildConfig.ContentPatcher/0.1.0">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="content-example.json" />
+    <None Remove="content.yaml" />
+    <None Remove="manifest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="content.yaml" />
+  </ItemGroup>
+
+</Project>

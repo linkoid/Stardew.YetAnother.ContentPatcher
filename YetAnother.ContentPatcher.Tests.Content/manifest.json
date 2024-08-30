@@ -1,0 +1,11 @@
+﻿{
+ "Name": "Yet Another Content Patcher Tests Content",
+ "Author": "linkoid",
+ "Version": "0.1.0",
+ "Description": "One or two sentences about the mod.",
+ "UniqueID": "Linkoid.YetAnother.ContentPatcher.Tests.Content",
+ "UpdateKeys": [], // when you release the mod, see https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Update_checks
+ "ContentPackFor": {
+  "UniqueID": "Pathoschild.ContentPatcher"
+ }
+}
