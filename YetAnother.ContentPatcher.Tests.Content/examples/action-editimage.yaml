@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://smapi.io/schemas/content-patcher.json
+
+# ← file://./../content.yaml
+
+Changes:
+### Examples ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide/action-editimage.md#examples
+  # This changes the in-game sprite for one item:
+- Action: EditImage
+  Target: Maps/springobjects
+  FromFile: "assets/fish-object.png"
+  FromArea: { X: 0, Y: 0, Width: 16, Height: 16} # optional, defaults to entire FromFile
+  ToArea: { X: 256, Y: 96, Width: 16, Height: 16 } # optional, defaults to source size from top-left

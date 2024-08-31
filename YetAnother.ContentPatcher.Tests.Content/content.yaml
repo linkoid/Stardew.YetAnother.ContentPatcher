@@ -1,29 +1,121 @@
-﻿---
-Format: 2.3.0
+﻿Format: 2.3.0
+
+### Player Config ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md#tokens--conditions
+ConfigSchema:
+  EnableJohn:
+    AllowValues: "true, false"
+    Default: "true"
+
+### Dynamic Tokens ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide/tokens.md#dynamic-tokens
+DynamicTokens:
+- Name: Style
+  Value: "dry"
+- Name: Style
+  Value: "wet"
+  When:
+    "Weather": "rain, stormy"
+
+### Aliases ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide/tokens.md#aliases
+AliasTokenNames:
+  ItemID: spacechase0.jsonAssets/ObjectId
+  ItemSprite: spacechase0.jsonAssets/ObjectSpriteSheetIndex
+
+### Actions ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md#actions
 Changes:
+  # Load replaces an entire asset with a version you provide.
 - Action: Load
   Target: Portraits/Abigail
-  FromFile: assets/abigail.png
+  FromFile: "assets/abigail.png"
+  # See → file://./examples/action-load.yaml 
+
+  # EditData changes the data read from a data asset.
 - Action: EditData
   Target: Data/Objects
   Fields:
-    MossSoup:
+    "MossSoup": 
       Price: 80
+  # See → file://./examples/action-editdata.yaml
+
+  # EditImage edits one of the game's image assets.
 - Action: EditImage
   Target: Maps/springobjects
-  FromFile: assets/fish-object.png
-  ToArea:
-    X: 160
-    Y: 80
-    Width: 16
-    Height: 16
+  FromFile: "assets/fish-object.png"
+  ToArea: { X: 160, Y: 80, Width: 16, Height: 16 }
+  # See → file://./examples/action-editimage.yaml
+
+  # EditMap changes part of an in-game map.
 - Action: EditMap
   Target: Maps/Town
-  FromFile: assets/town.tmx
-  ToArea:
-    X: 22
-    Y: 61
-    Width: 16
-    Height: 13
+  FromFile: "assets/town.tmx"
+  ToArea: { X: 22, Y: 61, Width: 16, Height: 13 }
+  # See → file://./examples/action-editmap.yaml
+
+  # Include adds patches from another file.
 - Action: Include
-  FromFile: assets/john_{{season}}.json
+  FromFile: "assets/john_{{season}}.yaml"
+  # See → file://./examples/action-include.yaml
+
+
+  ### Tokens & Conditions ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md#tokens--conditions
+  # This gives Abigail a different portrait for each season
+- Action: Load
+  Target: Portraits/Abigail
+  FromFile: "assets/abigail-{{season}}.png"
+
+  # This gives her different portraits if you're married to her
+- Action: Load
+  Target: Portraits/Abigail
+  FromFile: "assets/abigail-married.png"
+  When:
+    "Spouse": "Abigail"
+
+
+  ### Translations ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md#translations
+- Action: EditData
+  Target: Characters/Dialogue/MarriageDialogueAbigail
+  Entries:
+    "Rainy_Day_4": "{{i18n: rainy-day}}"
+
+
+  ### Text Operations ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md#text-operations
+- Action: EditData
+  Target: Data/NPCGiftTastes
+  TextOperations:
+  - Operation: Append
+    Target: ["Entries", "Universal_Love"]
+    Value: "127"
+    Delimiter: " "
+
+
+  ### Events ###   https://stardewmodding.wiki.gg/wiki/Events_for_Everyone#Content_Patcher_%2F_Set-Up_Templates
+- Action: EditData
+  Target: Data/Events/Farm
+  Entries:
+    "123456789/w sunny": >  # Use a '>' to spread the event code over multiple lines
+      none
+      /-1000 -1000
+      /farmer 5 7 0
+      /skippable
+      /viewport 5 7 10 /--set viewport near door
+      /pause 2000
+      /pause 1000
+      /move farmer 0 -1 1
+      /faceDirection John 1
+      /move farmer 3 0 1
+      /speak John "{{i18n:event-123456789.John.01}}"
+      /end
+
+
+
+
+  ### Stuff For Testing ###
+  # This just includes all the example files for testing.
+  # This isn't meant to be an example of any specific feature itself.
+- Action: Include
+  FromFile: >
+    examples/action-editdata.yaml,
+    examples/action-editimage.yaml,
+    examples/action-editmap.yaml,
+    examples/action-include.yaml,
+    examples/action-load.yaml
+
