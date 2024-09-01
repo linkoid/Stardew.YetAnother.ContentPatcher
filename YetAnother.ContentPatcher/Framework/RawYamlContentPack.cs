@@ -50,7 +50,7 @@ internal class RawYamlContentPack : RawContentPack
 		ContentConfig? content;
 		try
 		{
-			content = __instance.ContentPack.ReadYamlFile<YamlContentConfig>(filename)?.ToContentConfig();
+			content = __instance.ContentPack.ReadYamlFile<ContentConfig>(filename);//?.ToContentConfig();
 		}
 		catch (YamlException ex)
 		{

@@ -1,10 +1,14 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Linkoid.Stardew.YetAnother.Toolkit.Serialization.NodeDeserializers;
+using Linkoid.Stardew.YetAnother.Toolkit.Serialization.ObjectFactories;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using YamlDotNet.Serialization.NodeDeserializers;
+using YamlDotNet.Serialization.TypeInspectors;
+using YamlDotNet.Serialization.Utilities;
 
 namespace Linkoid.Stardew.YetAnother.Toolkit.Serialization;
 
@@ -21,10 +25,27 @@ public class YamlHelper
 	public static TBuilder CreateDefaultBuilder<TBuilder>()
 		where TBuilder : BuilderSkeleton<TBuilder>, new()
 	{
-		return new TBuilder()
+		var builder = new TBuilder()
 			.WithYamlFormatter(YamlFormatter.Default)
 			.WithTypeConverter(Converters.SemanticVersionConverter.Default)
 			.WithNamingConvention(NullNamingConvention.Instance);
+
+		if (builder is SerializerBuilder serializerBuilder)
+		{
+
+		}
+
+		if (builder is DeserializerBuilder deserializerBuilder)
+		{
+			deserializerBuilder
+				.WithNodeDeserializer(inner => new JsonSerializableObjectNodeDeserializer(JsonSerializableObjectFactory.Instance, (ObjectNodeDeserializer)inner),
+					register => register.InsteadOf<ObjectNodeDeserializer>())
+				.WithTypeInspector(inner => new TypeInspectors.JsonSerializablePropertiesTypeInspector(inner),
+					register => register.OnTop()) //register.Before<ReadableAndWritablePropertiesTypeInspector>())
+				;
+		}
+
+		return builder;
 	}
 
 	/// <summary>Create an instance of the default YAML deserializer settings.</summary>
