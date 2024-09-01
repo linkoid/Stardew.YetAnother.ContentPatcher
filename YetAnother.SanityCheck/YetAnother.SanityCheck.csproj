@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <AssemblyName>Linkoid.Stardew.YetAnother.SanityCheck</AssemblyName>
+    <RootNamespace>Linkoid.Stardew.YetAnother.SanityCheck</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <EnableHarmony>true</EnableHarmony>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UniqueID>Linkoid.YetAnother.SanityCheck</UniqueID>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Linkoid.Stardew.ModBuildConfig" Version="5.0.0-rc.1" />
+    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.3.1" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+</Project>

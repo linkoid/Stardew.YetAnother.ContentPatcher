@@ -1,0 +1,14 @@
+{
+  /*
+   | This file is automatically updated by ModManifestBuilder
+   | when the project is compiled.
+   | 
+   | Changes made to this file may be overwritten.
+   | 
+   */
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "Linkoid.YetAnother.SanityCheck",
+  "Name": "Linkoid.Stardew.YetAnother.SanityCheck",
+  "Version": "0.0.1-Debug",
+  "EntryDll": "Linkoid.Stardew.YetAnother.SanityCheck.dll"
+}
