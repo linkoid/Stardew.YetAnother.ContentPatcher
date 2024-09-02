@@ -1,4 +1,5 @@
 ﻿{
+ "$schema": "https://smapi.io/schemas/manifest.json",
  "Name": "YACP Tests Content",
  "Author": "linkoid",
  "Version": "0.1.0",
@@ -6,7 +7,13 @@
  "UniqueID": "Linkoid.YetAnother.ContentPatcher.Tests.Content",
  "UpdateKeys": [], // when you release the mod, see https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Update_checks
  "ContentPackFor": {
-  "UniqueID": "Pathoschild.ContentPatcher"
- }
- 
+  "UniqueID": "Pathoschild.ContentPatcher",
+  "MinimumVersion": "2.3.0"
+ },
+ "Dependencies": [
+  {
+   "UniqueID": "Linkoid.YetAnother.ContentPatcher",
+   "MinimumVersion": "0.1.0"
+  }
+ ]
 }
