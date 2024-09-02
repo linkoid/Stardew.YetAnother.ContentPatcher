@@ -1,5 +1,6 @@
 ﻿using Linkoid.Stardew.YetAnother.Toolkit.Serialization.NodeDeserializers;
 using Linkoid.Stardew.YetAnother.Toolkit.Serialization.ObjectFactories;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -15,6 +16,8 @@ namespace Linkoid.Stardew.YetAnother.Toolkit.Serialization;
 /// <summary>Encapsulates YetAnotherToolkit's YAML file parsing.</summary>
 public class YamlHelper
 {
+	internal static readonly YamlHelper Instance = new YamlHelper();
+
 	/// <summary>The YAML settings to use when serializing files.</summary>
 	public SerializerBuilder SerializerSettings { get; } = YamlHelper.CreateDefaultBuilder<SerializerBuilder>();
 
@@ -27,7 +30,8 @@ public class YamlHelper
 	{
 		var builder = new TBuilder()
 			.WithYamlFormatter(YamlFormatter.Default)
-			.WithTypeConverter(Converters.SemanticVersionConverter.Default)
+			.WithTypeConverter(Converters.JTokenConverter.Instance)
+			.WithTypeConverter(Converters.SemanticVersionConverter.Instance)
 			.WithNamingConvention(NullNamingConvention.Instance);
 
 		if (builder is SerializerBuilder serializerBuilder)
@@ -40,7 +44,7 @@ public class YamlHelper
 			deserializerBuilder
 				.WithNodeDeserializer(inner => new JsonSerializableObjectNodeDeserializer(JsonSerializableObjectFactory.Instance, (ObjectNodeDeserializer)inner),
 					register => register.InsteadOf<ObjectNodeDeserializer>())
-				.WithTypeInspector(inner => new TypeInspectors.JsonSerializablePropertiesTypeInspector(inner),
+				.WithTypeInspector(inner => new TypeInspectors.JsonPropertiesTypeInspector(inner),
 					register => register.OnTop()) //register.Before<ReadableAndWritablePropertiesTypeInspector>())
 				;
 		}
@@ -53,7 +57,7 @@ public class YamlHelper
 	{
 		return new DeserializerBuilder()
 			.WithYamlFormatter(YamlFormatter.Default)
-			.WithTypeConverter(Converters.SemanticVersionConverter.Default)
+			.WithTypeConverter(Converters.SemanticVersionConverter.Instance)
 			.WithNamingConvention(NullNamingConvention.Instance);
 	}
 
@@ -104,6 +108,24 @@ public class YamlHelper
 		}
 	}
 
+	internal object? ReadYamlFile(string fullPath, Type type)
+	{
+		// validate
+		if (string.IsNullOrWhiteSpace(fullPath))
+			throw new ArgumentException("The file path is empty or invalid.", nameof(fullPath));
+
+		// deserialize model
+		try
+		{
+			using var fileReader = new StreamReader(fullPath);
+			return GetDeserializer().Deserialize(fileReader, type);
+		}
+		catch (Exception ex)
+		{
+			throw YamlDeserializeException($"Can't parse YAML file at {fullPath}.", ex);
+		}
+	}
+
 	/// <summary>Save to a YAML file.</summary>
 	/// <typeparam name="TModel">The model type.</typeparam>
 	/// <param name="fullPath">The absolute file path.</param>
@@ -133,7 +155,14 @@ public class YamlHelper
 	/// <param name="yaml">The raw YAML text.</param>
 	public TModel Deserialize<TModel>(string yaml)
 	{
-		return GetDeserializer().Deserialize<TModel>(yaml);
+		try
+		{
+			return GetDeserializer().Deserialize<TModel>(yaml);
+		}
+		catch (Exception ex)
+		{
+			throw YamlDeserializeException($"Can't parse YAML string.", ex);
+		}
 	}
 
 	/// <summary>Serialize a model to YAML text.</summary>
@@ -154,5 +183,24 @@ public class YamlHelper
 	public IDeserializer GetDeserializer()
 	{
 		return DeserializerSettings.Build();
+	}
+
+	private YamlException YamlDeserializeException(string error, Exception ex)
+	{
+		if (ex is YamlException yex)
+		{
+			error += " This doesn't seem to be valid YAML.";
+			error += $"\nTechnical details: {ex.Message}";
+			if (ex.InnerException != null)
+			{
+				error += $"\n{ex.InnerException}";
+			}
+			return new YamlException(yex.Start, yex.End, error, ex);
+		}
+		else
+		{
+			error += $"\n{ex}";
+			return new YamlException(error, ex);
+		}
 	}
 }

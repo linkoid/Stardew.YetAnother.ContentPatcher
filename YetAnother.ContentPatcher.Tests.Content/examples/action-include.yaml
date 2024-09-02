@@ -8,10 +8,10 @@ Changes:
   
   # You can use Include to organize your patches into subfiles:
 - Action: Include
-  FromFile: "assets/John NPC.json, assets/Jane NPC.json"
+  FromFile: "assets/John NPC.yaml, assets/Jane NPC.json"
   
   # You can combine this with tokens and conditions to load files dynamically:
 - Action: Include
-  FromFile: "assets/John_{{season}}.json"
+  FromFile: "assets/John_{{season}}.yaml"
   When:
     EnableJohn: true

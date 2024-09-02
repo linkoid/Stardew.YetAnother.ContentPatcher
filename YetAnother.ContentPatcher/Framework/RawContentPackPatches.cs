@@ -7,21 +7,26 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Linkoid.Stardew.YetAnother.Toolkit;
-using static Linkoid.Stardew.YetAnother.ContentPatcher.YetAnotherContentPatcherMod;
-using Linkoid.Stardew.YetAnother.ContentPatcher.Framework.ConfigModels;
 using YamlDotNet.Core;
+using static Linkoid.Stardew.YetAnother.ContentPatcher.YetAnotherContentPatcherMod;
 
 namespace Linkoid.Stardew.YetAnother.ContentPatcher.Framework;
 
 [HarmonyPatch(typeof(RawContentPack))]
-internal class RawYamlContentPack : RawContentPack
+internal class RawContentPackPatches : RawContentPack
 {
-	public RawYamlContentPack(RawContentPack copyFrom)
+	public static void PatchWith(Harmony harmony)
+	{
+		harmony.Patch(AccessTools.DeclaredMethod(typeof(RawContentPack), nameof(RawContentPack.TryReloadContent)),
+			postfix: new(((Delegate)TryReloadContent_Postfix).Method));
+	}
+
+	public RawContentPackPatches(RawContentPack copyFrom)
 		: base(copyFrom)
 	{
 	}
 
-	public RawYamlContentPack(IContentPack contentPack, int index, Func<ContentConfig, IMigration[]> getMigrations)
+	public RawContentPackPatches(IContentPack contentPack, int index, Func<ContentConfig, IMigration[]> getMigrations)
 		: base(contentPack, index, getMigrations)
 	{
 	}

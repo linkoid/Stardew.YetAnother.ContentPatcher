@@ -14,7 +14,7 @@ namespace Linkoid.Stardew.YetAnother.Toolkit.Serialization.Converters;
 /// <summary>Handles deserialization of <see cref="ISemanticVersion"/>.</summary>
 internal class SemanticVersionConverter : IYamlTypeConverter
 {
-	public static readonly SemanticVersionConverter Default = new SemanticVersionConverter();
+	public static readonly SemanticVersionConverter Instance = new SemanticVersionConverter();
 
 	/// <summary>Whether to allow non-standard extensions to semantic versioning.</summary>
 	protected bool AllowNonStandard { get; set; }

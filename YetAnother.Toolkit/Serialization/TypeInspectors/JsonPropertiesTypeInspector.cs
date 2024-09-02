@@ -37,10 +37,10 @@ namespace Linkoid.Stardew.YetAnother.Toolkit.Serialization.TypeInspectors;
 /// <summary>
 /// Returns the properties of a type that are writable.
 /// </summary>
-public sealed class JsonSerializablePropertiesTypeInspector : TypeInspectorSkeleton
+public sealed class JsonPropertiesTypeInspector : TypeInspectorSkeleton
 {
 	private readonly ITypeInspector innerTypeInspector;
-	public JsonSerializablePropertiesTypeInspector(ITypeInspector innerTypeInspector)
+	public JsonPropertiesTypeInspector(ITypeInspector innerTypeInspector)
 	{
 		this.innerTypeInspector = innerTypeInspector;
 	}
@@ -65,15 +65,7 @@ public sealed class JsonSerializablePropertiesTypeInspector : TypeInspectorSkele
 			where !existingProperties.Any(p => string.Equals(p.Name, property.Name, StringComparison.Ordinal))
 			select new JsonPropertyDescriptor(property, jsonPropertyAttribute);
 
-		var properties = existingProperties.Concat(jsonProperties);	
-
-		System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-		foreach (var prop in properties)
-		{
-			stringBuilder.Append(prop.Name).Append(", ");
-		}
-		Console.Error.WriteLine(stringBuilder.ToString());
-		return properties;
+		return existingProperties.Concat(jsonProperties);
 	}
 
 	private sealed class JsonPropertyDescriptor : IPropertyDescriptor
@@ -83,7 +75,6 @@ public sealed class JsonSerializablePropertiesTypeInspector : TypeInspectorSkele
 
 		public JsonPropertyDescriptor(PropertyInfo property, JsonPropertyAttribute attribute)
 		{
-			Console.Error.WriteLine($"JsonPropertyDescriptor({property.Name})");
 			this.property = property ?? throw new ArgumentNullException(nameof(property));
 			this.attribute = attribute ?? throw new ArgumentNullException(nameof(attribute));
 		}

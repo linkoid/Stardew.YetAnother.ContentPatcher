@@ -14,8 +14,6 @@ namespace Linkoid.Stardew.YetAnother.Toolkit;
 
 public static class IContentPackExtensions
 {
-    private static readonly YamlHelper YamlHelper = new YamlHelper();
-
     public static TModel? ReadYamlFile<TModel>(this IContentPack contentPack, string path)
         where TModel : class
     {
@@ -24,7 +22,7 @@ public static class IContentPackExtensions
 		path = PathUtilities.NormalizePath(path);
 
         FileInfo file = @this.GetFile(path);
-        return file.Exists && YamlHelper.ReadYamlFileIfExists(file.FullName, out TModel? model)
+        return file.Exists && YamlHelper.Instance.ReadYamlFileIfExists(file.FullName, out TModel? model)
             ? model
             : null;
     }

@@ -1,5 +1,5 @@
 ﻿{
- "Name": "Yet Another Content Patcher Tests Content",
+ "Name": "YACP Tests Content",
  "Author": "linkoid",
  "Version": "0.1.0",
  "Description": "One or two sentences about the mod.",
@@ -8,4 +8,5 @@
  "ContentPackFor": {
   "UniqueID": "Pathoschild.ContentPatcher"
  }
+ 
 }
