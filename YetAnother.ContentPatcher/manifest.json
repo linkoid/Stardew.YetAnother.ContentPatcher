@@ -9,11 +9,14 @@
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "Linkoid.YetAnother.ContentPatcher",
   "Name": "Linkoid.Stardew.YetAnotherContentPatcher",
-  "Version": "0.1.0-Debug",
+  "Version": "0.2.0",
   "EntryDll": "Linkoid.Stardew.YetAnother.ContentPatcher.dll",
   "Dependencies": [
     {
       "UniqueID": "Pathoschild.ContentPatcher"
     }
+  ],
+  "UpdateKeys": [
+    "Nexus:27472"
   ]
 }

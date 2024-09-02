@@ -13,6 +13,7 @@
 
   <PropertyGroup>
     <UniqueID>Linkoid.YetAnother.ContentPatcher</UniqueID>
+    <UpdateKeys>Nexus:27472</UpdateKeys>
   </PropertyGroup>
 
   <ItemGroup>

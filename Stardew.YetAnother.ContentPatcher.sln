@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnother.ContentPatcher", "YetAnother.ContentPatcher\YetAnother.ContentPatcher.csproj", "{3FECC0F7-D92B-4638-A3E3-F362A2CA45F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnother.ContentPatcher", "YetAnother.ContentPatcher\YetAnother.ContentPatcher.csproj", "{3FECC0F7-D92B-4638-A3E3-F362A2CA45F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnother.ContentPatcher.Tests.Content", "YetAnother.ContentPatcher.Tests.Content\YetAnother.ContentPatcher.Tests.Content.csproj", "{2C29E453-02C6-485B-8D02-C159CF754C6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnother.ContentPatcher.Tests.Content", "YetAnother.ContentPatcher.Tests.Content\YetAnother.ContentPatcher.Tests.Content.csproj", "{2C29E453-02C6-485B-8D02-C159CF754C6B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3FECC0F7-D92B-4638-A3E3-F362A2CA45F9} = {3FECC0F7-D92B-4638-A3E3-F362A2CA45F9}
 		{DB71D540-A4B2-487F-A7DD-BA31B9DF3929} = {DB71D540-A4B2-487F-A7DD-BA31B9DF3929}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnother.Toolkit", "YetAnother.Toolkit\YetAnother.Toolkit.csproj", "{DB71D540-A4B2-487F-A7DD-BA31B9DF3929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnother.Toolkit", "YetAnother.Toolkit\YetAnother.Toolkit.csproj", "{DB71D540-A4B2-487F-A7DD-BA31B9DF3929}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6516315-BA4D-495B-93E9-25B7E940C9A0}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
