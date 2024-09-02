@@ -1,4 +1,4 @@
-# Yet Another Content Patcher
+﻿# Yet Another Content Patcher
 
 Yet Another Content Patcher is a framework that allows creating [Content Patcher](https://www.nexusmods.com/stardewvalley/mods/1915) content packs using human-friendly [YAML](https://yaml.org/) instead of JSON.
 
@@ -12,7 +12,26 @@ Yet Another Content Patcher is a framework that allows creating [Content Patcher
 
 ### For Mod Authors
 YACP works exactly the same as Content Patcher. The only things that change
-are the use of content.yaml files instead of content.json, and the YAML syntax.
+are the use of **content.yaml** files instead of **content.json**, and the YAML syntax.
+
+Example mod file structure:
+```
+📁 Mods/
+    📁 [YACP] YourModName/
+        🗎 content.yaml
+        ﻿﻿🗎 manifest.json
+        📁 assets/
+            🗎 example.png
+```
+
+Example content.yaml file:
+```yaml
+Format: 2.3.0
+Changes:
+- Action: Load
+    Target: Portraits/Abigail
+    FromFile: "assets/example.png"
+```
 
 For details on using Content Patcher, refer to the [Content Patcher Author Guide](https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md).
 
