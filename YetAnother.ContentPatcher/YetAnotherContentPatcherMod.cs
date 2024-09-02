@@ -30,8 +30,6 @@ internal class YetAnotherContentPatcherMod : Mod
 
 		harmony = new Harmony(ModManifest.UniqueID);
 		//YetAnotherContentPatcherMod.PatchWith(harmony);
-		//GetContentPacksPatches.PatchWith(harmony);
-		ContentPackHelperPatches.PatchWith(harmony);
 		Framework.RawContentPackPatches.PatchWith(harmony);
 		Toolkit.Framework.ContentManagers.ModContentManagerPatches.PatchForYamlFileSupport();
 
