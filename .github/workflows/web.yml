@@ -1,8 +1,11 @@
 name: Deploy YetAnother.Web to GitHub Pages
 on:
+  workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths: [ YetAnother.Web/** ]
+  
+
     
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
