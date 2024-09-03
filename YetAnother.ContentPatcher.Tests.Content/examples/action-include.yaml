@@ -14,4 +14,4 @@ Changes:
 - Action: Include
   FromFile: "assets/John_{{season}}.yaml"
   When:
-    EnableJohn: true
+    "EnableJohn": true

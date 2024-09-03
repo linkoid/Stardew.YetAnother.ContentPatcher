@@ -43,14 +43,14 @@ Changes:
 - Action: EditData
   Target: Data/MoviesReactions
   MoveEntries:
-    - ID: "Abigail" 
-      BeforeID: "Leah"     # move entry so it's right before Leah
-    - ID: "Abigail" 
-      AfterID: "Leah"      # move entry so it's right after Leah
-    - ID: "Abigail"
-      ToPosition: "Top"    # move entry to the top of the list
-    - ID: "Abigail"
-      ToPosition: "Bottom" # move entry to the bottom of the list
+  - ID: "Abigail" 
+    BeforeID: "Leah"     # move entry so it's right before Leah
+  - ID: "Abigail" 
+    AfterID: "Leah"      # move entry so it's right after Leah
+  - ID: "Abigail"
+    ToPosition: "Top"    # move entry to the top of the list
+  - ID: "Abigail"
+    ToPosition: "Bottom" # move entry to the bottom of the list
 
 ### Target Field ###   https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide/action-editdata.md#edit-object-context-tags
   
