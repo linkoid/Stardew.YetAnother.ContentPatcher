@@ -5,10 +5,12 @@ on:
     paths: [ YetAnother.Web/** ]
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
   
 jobs:
-  deploy-to-github-pages:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -17,9 +19,20 @@ jobs:
       with:
         dotnet-version: '9.0.0-preview.7'
     - name: Publish YetAnother.Web
-      run: dotnet publish YetAnother.Web/YetAnother.Web.csproj -c Release -o release --nologo
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.6.4
+      run: dotnet publish YetAnother.Web/YetAnother.Web.csproj -c Release -o _site --nologo
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        folder: release/wwwroot
+        path: _site/wwwroot
+  
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
     
