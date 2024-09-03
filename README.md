@@ -37,8 +37,8 @@ Example content.yaml file:
 Format: 2.3.0
 Changes:
 - Action: Load
-    Target: Portraits/Abigail
-    FromFile: "assets/example.png"
+  Target: Portraits/Abigail
+  FromFile: "assets/example.png"
 ```
 
 For details on using Content Patcher, refer to the [Content Patcher Author Guide](https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md).
