@@ -20,15 +20,15 @@ Yet Another Content Patcher is a framework that allows creating [Content Patcher
 
 ## For Mod Authors
 YACP works exactly the same as Content Patcher. The only things that change
-are the use of **content.yaml** files instead of **content.json**, and the YAML syntax.
-
-### Migrating from JSON
-An existing content.json file can quickly be converted to a content.yaml
-using [YACP's online JSON converter](https://linkoid.github.io/Stardew.YetAnother.ContentPatcher/converter)
+are the use of `content.yaml` files instead of `content.json`, and the YAML syntax.
 
 For details on using Content Patcher, refer to the [Content Patcher Author Guide](https://github.com/Pathoschild/StardewMods/blob/stable/ContentPatcher/docs/author-guide.md).
 
 For details on using YAML with Content Patcher, refer to the example [content.yaml](https://github.dev/linkoid/Stardew.YetAnother.ContentPatcher/blob/main/YetAnother.ContentPatcher.Tests.Content/content.yaml) file.
+
+### Migrating from JSON
+An existing `content.json` file can quickly be converted to a `content.yaml` file
+using [YACP's online JSON converter](https://linkoid.github.io/Stardew.YetAnother.ContentPatcher/converter).
 
 ### Examples
 Example mod file structure:
