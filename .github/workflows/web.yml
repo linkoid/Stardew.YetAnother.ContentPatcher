@@ -1,0 +1,25 @@
+name: Deploy YetAnother.Web to GitHub Pages
+on:
+  push:
+    branches: [ master ]
+    paths: [ YetAnother.Web/** ]
+
+permissions:
+  contents: write
+  
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4.0.1
+      with:
+        dotnet-version: '9.0.0-preview.7'
+    - name: Publish YetAnother.Web
+      run: dotnet publish YetAnother.Web/YetAnother.Web.csproj -c Release -o release --nologo
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.6.4
+      with:
+        folder: release/wwwroot
+    
