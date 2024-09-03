@@ -36,7 +36,7 @@ jobs:
       uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
       with:
         html_path: _site/wwwroot/index.html
-        base_href: REPOSITORY_NAME
+        base_href: ${{ github.event.repository.name }}
     # Allow files and folders starting with an underscore.
     - name: Add .nojekyll File
       run: touch _site/wwwroot/.nojekyll
