@@ -30,6 +30,16 @@ jobs:
         dotnet-version: '9.0.x'
     - name: Publish YetAnother.Web
       run: dotnet publish YetAnother.Web/YetAnother.Web.csproj -c Release -o _site --nologo
+    # base href url value should be changed so that resources like CSS and scripts can load properly. 
+    - name: Rewrite Base Href
+      if: success()
+      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+      with:
+        html_path: _site/wwwroot/index.html
+        base_href: REPOSITORY_NAME
+    # Allow files and folders starting with an underscore.
+    - name: Add .nojekyll File
+      run: touch _site/wwwroot/.nojekyll
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
