@@ -27,7 +27,7 @@ jobs:
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4.0.1
       with:
-        dotnet-version: '9.0.0-preview.7'
+        dotnet-version: '9.0.x'
     - name: Publish YetAnother.Web
       run: dotnet publish YetAnother.Web/YetAnother.Web.csproj -c Release -o _site --nologo
     - name: Upload artifact
