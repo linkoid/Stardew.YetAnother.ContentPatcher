@@ -1,0 +1,51 @@
+﻿@page "/converter"
+@inject ILogger<Converter> Logger
+
+<PageTitle>Json to Yaml Converter</PageTitle>
+
+<h1>Json to Yaml Converter</h1>
+
+<EditForm EditContext="editContext" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div style="display:flex;">
+        <div style="display:block;width:100%;">
+            <label style="width:100%;">Json:</label>
+            <InputTextArea @bind-Value="Model!.JsonString" style="width:100%;height:400px;" />
+        </div>
+        <div style="display:block;width:10%;"></div>
+        <div style="display:block;width:100%;">
+            <label style="width:100%;">Yaml:</label>
+            <InputTextArea @bind-Value="Model!.YamlString" style="width:100%;height:400px;" />
+        </div>
+    </div>
+    <div>
+        <button type="submit">Convert</button>
+    </div>
+</EditForm>
+
+
+
+@code {
+    private EditContext? editContext;
+    private JsonToYamlConverter Model { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        editContext = new(Model);
+    }
+
+    private void Submit()
+    {
+        if (editContext != null && editContext.Validate())
+        {
+            var jtoken = Model.ParseJson(Model.JsonString);
+            Model.YamlString = Model.ConvertToYaml(jtoken);
+            Logger.LogInformation("Submit called: Form is valid");
+        }
+        else
+        {
+            Logger.LogInformation("Submit called: Form is INVALID");
+        }
+    }
+}
