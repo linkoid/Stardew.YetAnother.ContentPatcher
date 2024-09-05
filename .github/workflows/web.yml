@@ -32,13 +32,14 @@ jobs:
       run: dotnet publish YetAnother.Web/YetAnother.Web.csproj -c Release -o _site --nologo
     # base href url value should be changed so that resources like CSS and scripts can load properly. 
     - name: Rewrite Base Href
-      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
       with:
-        html_path: _site/wwwroot/index.html
-        base_href: ${{ github.event.repository.name }}
+        html_glob: _site/wwwroot/**/index.html
+        base_href: /${{ github.event.repository.name }}/
     # This fixes bug that prevents direct navigation to subdirectories
-    - name: Redirect 404 to index.html
-      run: cp _site/wwwroot/index.html _site/wwwroot/404.html
+    # Shouldn't be needed now that the site is pre-rendered
+    #- name: Redirect 404 to index.html
+    #  run: cp _site/wwwroot/index.html _site/wwwroot/404.html
     # Allow files and folders starting with an underscore.
     - name: Add .nojekyll File
       run: touch _site/wwwroot/.nojekyll
@@ -54,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
     

@@ -18,7 +18,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnother.Web", "YetAnother.Web\YetAnother.Web.csproj", "{8F3F8F20-D6E4-4D2A-8E74-CC9899C35FA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnother.Web", "YetAnother.Web\YetAnother.Web.csproj", "{8F3F8F20-D6E4-4D2A-8E74-CC9899C35FA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{70D4BD08-77BF-47B8-818C-E5C3D954E07E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{46C985F1-8E00-4A8C-8BA4-34F8AAEC5BB8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\web.yml = .github\workflows\web.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +52,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{70D4BD08-77BF-47B8-818C-E5C3D954E07E} = {B6516315-BA4D-495B-93E9-25B7E940C9A0}
+		{46C985F1-8E00-4A8C-8BA4-34F8AAEC5BB8} = {70D4BD08-77BF-47B8-818C-E5C3D954E07E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2789056C-0794-4B04-95F3-90390080700F}

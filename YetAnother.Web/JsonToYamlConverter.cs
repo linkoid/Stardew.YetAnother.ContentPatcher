@@ -193,7 +193,7 @@ public class JsonToYamlConverter
             if (!str.EndsWith('\n')) str += "\n";
         }
         else if (string.IsNullOrWhiteSpace(str) 
-            || str.Any(@"#[]{}\""`'".Contains)
+            || str.Any(@"#[]{}\""`':".Contains)
             || str.StartsWith(@"&*!|>\%@"))
         {
             style = ScalarStyle.DoubleQuoted;

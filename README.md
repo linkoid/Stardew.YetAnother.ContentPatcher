@@ -51,9 +51,6 @@ Changes:
 ```
 
 
-
-
-
 ## Links
 * [Source Code](https://github.com/linkoid/Stardew.YetAnother.ContentPatcher)
 * [JSON to YAML Converter](https://linkoid.github.io/Stardew.YetAnother.ContentPatcher/converter)
