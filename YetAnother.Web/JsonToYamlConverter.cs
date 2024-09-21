@@ -20,32 +20,51 @@ public class JsonToYamlConverter
     };
 
     private EmitterSettings emitterSettings = new EmitterSettings(
-        bestIndent: 2, 
+        bestIndent: 2,
         bestWidth: 120,
         isCanonical: false,
         maxSimpleKeyLength: 120,
         skipAnchorName: false,
         indentSequences: false,
-        newLine: null)
-    {
-        
-    };
+        newLine: null
+    );
 
-    public JToken ParseJson(string? json)
+    public IEnumerable<JToken> ParseJson(string? json)
     {
-        return JToken.Parse(json ?? "", jsonLoadSettings);
+        var tokens = new List<JToken>();
+        var reader = new JsonTextReader(new StringReader(json));
+        tokens.Add(JToken.Load(reader, jsonLoadSettings));
+        while (reader.Read())
+        {
+            tokens.Add(JToken.Load(reader, jsonLoadSettings));
+        }
+        return tokens;
     }
 
-    public string ConvertToYaml(JToken token)
+    public string ConvertToYaml(IEnumerable<JToken> tokens)
     {
         using var stringWriter = new StringWriter();
         var emitter = new Emitter(stringWriter, emitterSettings);
         emitter.Emit(new StreamStart());
         emitter.Emit(new DocumentStart());
 
+        bool gotFirstNonComment = false;
+
         try
         {
-            EmitJTokenToYaml(emitter, token);
+            foreach (var token in tokens)
+            {
+                if (token.Type != JTokenType.Comment)
+                {
+                    if (gotFirstNonComment)
+                    {
+                        emitter.Emit(new DocumentEnd(false));
+                        emitter.Emit(new DocumentStart());
+                    }
+                    gotFirstNonComment = true;
+                }
+                EmitJTokenHierarchyToYaml(emitter, token);
+            }
         }
         catch (Exception ex)
         {
@@ -57,9 +76,9 @@ public class JsonToYamlConverter
         return stringWriter.ToString();
     }
 
-    private void EmitJTokenToYaml(IEmitter emitter, JToken token, JTokenReader? reader = null)
+    private void EmitJTokenHierarchyToYaml(IEmitter emitter, JToken token)
     {
-        reader ??= new JTokenReader(token);
+        var reader = new JTokenReader(token);
 
         int previousLine = -1;
         while (reader.Read())
@@ -71,91 +90,99 @@ public class JsonToYamlConverter
                 previousLine = currentLineNumber;
             }
 
-            TagName tag = TagName.Empty;
-
-            switch (reader.TokenType)
-            {
-                case JsonToken.None:
-                    break;
-
-                case JsonToken.StartObject:
-                    tag = FailsafeSchema.Tags.Map;
-                    JContainer jobject = (JContainer?)reader.CurrentToken ?? throw new JsonSerializationException();
-                    MappingStyle mappingStyle = MappingStyle.Any;
-                    if (jobject.Last?.GetLineNumber() == currentLineNumber)
-                    {
-                        mappingStyle = MappingStyle.Flow;
-                    }
-                    emitter.Emit(new MappingStart(AnchorName.Empty, tag, true, mappingStyle));
-                    break;
-
-                case JsonToken.StartArray:
-                    tag = FailsafeSchema.Tags.Seq;
-                    JContainer jarray = (JContainer?)reader.CurrentToken ?? throw new JsonSerializationException();
-                    SequenceStyle sequenceStyle = SequenceStyle.Any;
-                    if (jarray.Last?.GetLineNumber() == currentLineNumber)
-                    {
-                        sequenceStyle = SequenceStyle.Flow;
-                    }
-                    emitter.Emit(new SequenceStart(AnchorName.Empty, TagName.Empty, true, sequenceStyle));
-                    break;
-
-                case JsonToken.StartConstructor:
-                    throw new NotSupportedException(reader.TokenType.ToString());
-                    break;
-
-                case JsonToken.PropertyName:
-                    tag = FailsafeSchema.Tags.Str;
-                    EmitPropertyNameToYaml(emitter, reader.Value as string ?? string.Empty, reader.CurrentToken!);
-                    break;
-
-                case JsonToken.Comment:
-                    emitter.Emit(new Comment(reader.Value?.ToString() ?? string.Empty, !isOnNewLine));
-                    break;
-
-                case JsonToken.Raw:
-                    throw new NotSupportedException(reader.TokenType.ToString());
-                    break;
-
-                case JsonToken.String:
-                    EmitStringToYaml(emitter, reader.Value as string ?? string.Empty, reader.CurrentToken!);
-                    break;
-
-                case JsonToken.Integer:
-                    tag = JsonSchema.Tags.Int;
-                    goto case JsonToken.Undefined;
-                case JsonToken.Float:
-                    tag = JsonSchema.Tags.Float;
-                    goto case JsonToken.Undefined;
-                case JsonToken.Boolean:
-                    tag = JsonSchema.Tags.Bool;
-                    goto case JsonToken.Undefined;
-                case JsonToken.Null:
-                    tag = JsonSchema.Tags.Null;
-                    goto case JsonToken.Undefined;
-                case JsonToken.Date:
-                    tag = DefaultSchema.Tags.Timestamp;
-                    goto case JsonToken.Undefined;
-                case JsonToken.Undefined:
-                    emitter.Emit(new Scalar(AnchorName.Empty, tag, reader.Value?.ToString() ?? string.Empty,
-                        ScalarStyle.Any, isPlainImplicit: true, isQuotedImplicit: true));
-                    break;
-
-                case JsonToken.EndObject:
-                    emitter.Emit(new MappingEnd());
-                    break;
-
-                case JsonToken.EndArray:
-                    emitter.Emit(new SequenceEnd());
-                    break;
-
-                case JsonToken.EndConstructor:
-                case JsonToken.Bytes:
-                    throw new NotSupportedException(reader.TokenType.ToString());
-                    break;
-
-            }
+            EmitJTokenToYaml(emitter, reader, currentLineNumber, isOnNewLine, reader.CurrentToken);
         }
+    }
+
+    private void EmitJTokenToYaml(IEmitter emitter, JsonReader reader, int currentLineNumber, bool isOnNewLine, JToken? currentToken = null)
+    {
+        TagName tag = TagName.Empty;
+        Console.WriteLine($"Token Type: {reader.TokenType}");
+
+        switch (reader.TokenType)
+        {
+            case JsonToken.None:
+                break;
+
+            case JsonToken.StartObject:
+                tag = FailsafeSchema.Tags.Map;
+                JContainer? jobject = (JContainer?)currentToken;
+                MappingStyle mappingStyle = MappingStyle.Any;
+                if (jobject?.Last?.GetLineNumber() == currentLineNumber)
+                {
+                    mappingStyle = MappingStyle.Flow;
+                }
+                emitter.Emit(new MappingStart(AnchorName.Empty, tag, true, mappingStyle));
+                break;
+
+            case JsonToken.StartArray:
+                tag = FailsafeSchema.Tags.Seq;
+                JContainer? jarray = (JContainer?)currentToken;
+                SequenceStyle sequenceStyle = SequenceStyle.Any;
+                if (jarray?.Last?.GetLineNumber() == currentLineNumber)
+                {
+                    sequenceStyle = SequenceStyle.Flow;
+                }
+                emitter.Emit(new SequenceStart(AnchorName.Empty, TagName.Empty, true, sequenceStyle));
+                break;
+
+            case JsonToken.StartConstructor:
+                throw new NotSupportedException(reader.TokenType.ToString());
+                break;
+
+            case JsonToken.PropertyName:
+                tag = FailsafeSchema.Tags.Str;
+                EmitPropertyNameToYaml(emitter, reader.Value as string ?? string.Empty, currentToken);
+                break;
+
+            case JsonToken.Comment:
+                Console.WriteLine($"Got a comment {(isOnNewLine ? "newline" : "inline")}: {reader.Value?.ToString()}");
+                emitter.Emit(new Comment(reader.Value?.ToString() ?? string.Empty, !isOnNewLine));
+                break;
+
+            case JsonToken.Raw:
+                throw new NotSupportedException(reader.TokenType.ToString());
+                break;
+
+            case JsonToken.String:
+                EmitStringToYaml(emitter, reader.Value as string ?? string.Empty, currentToken);
+                break;
+
+            case JsonToken.Integer:
+                tag = JsonSchema.Tags.Int;
+                goto case JsonToken.Undefined;
+            case JsonToken.Float:
+                tag = JsonSchema.Tags.Float;
+                goto case JsonToken.Undefined;
+            case JsonToken.Boolean:
+                tag = JsonSchema.Tags.Bool;
+                goto case JsonToken.Undefined;
+            case JsonToken.Null:
+                tag = JsonSchema.Tags.Null;
+                goto case JsonToken.Undefined;
+            case JsonToken.Date:
+                tag = DefaultSchema.Tags.Timestamp;
+                goto case JsonToken.Undefined;
+            case JsonToken.Undefined:
+                emitter.Emit(new Scalar(AnchorName.Empty, tag, reader.Value?.ToString() ?? string.Empty,
+                    ScalarStyle.Any, isPlainImplicit: true, isQuotedImplicit: true));
+                break;
+
+            case JsonToken.EndObject:
+                emitter.Emit(new MappingEnd());
+                break;
+
+            case JsonToken.EndArray:
+                emitter.Emit(new SequenceEnd());
+                break;
+
+            case JsonToken.EndConstructor:
+            case JsonToken.Bytes:
+                throw new NotSupportedException(reader.TokenType.ToString());
+                break;
+
+        }
+
     }
 
     private void EmitPropertyNameToYaml(IEmitter emitter, string str, JToken token)
@@ -185,7 +212,7 @@ public class JsonToYamlConverter
         }
 
         ScalarStyle style = ScalarStyle.Any;
-        Console.WriteLine($"path: {token.Path}");
+        Console.WriteLine($"path: {token?.Path}");
 
         if (str.Length > emitterSettings.BestWidth && str.Contains(' '))
         {

@@ -5,6 +5,8 @@
 
 <h1>Json to Yaml Converter</h1>
 
+<span style="color: darkred">@errorMessage</span>
+
 <EditForm EditContext="editContext" OnValidSubmit="Submit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -26,9 +28,11 @@
 
 
 
+
 @code {
     private EditContext? editContext;
     private JsonToYamlConverter Model { get; set; } = new();
+    private string? errorMessage;
 
     protected override void OnInitialized()
     {
@@ -37,14 +41,32 @@
 
     private void Submit()
     {
+        errorMessage = "";
+
         if (editContext != null && editContext.Validate())
         {
-            var jtoken = Model.ParseJson(Model.JsonString);
-            Model.YamlString = Model.ConvertToYaml(jtoken);
-            Logger.LogInformation("Submit called: Form is valid");
+            try
+            {
+                var jtokens = Model.ParseJson(Model.JsonString);
+                Model.YamlString = Model.ConvertToYaml(jtokens);
+                Logger.LogInformation("Submit called: Form is valid");
+            }
+            catch (JsonException ex)
+            {
+                errorMessage = $"Invalid JSON: {ex.Message}";
+            }
+            catch (YamlException ex)
+            {
+                errorMessage = $"YAML Error: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"{ex.GetType().Name}: {ex.Message}";
+            }
         }
         else
         {
+            errorMessage = "form is invalid";
             Logger.LogInformation("Submit called: Form is INVALID");
         }
     }
