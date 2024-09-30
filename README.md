@@ -1,20 +1,20 @@
-﻿# Yet Another Content Patcher
+﻿# YAML Adapter for Content Patcher
 
 [![Stardew Valley](https://custom-icon-badges.demolab.com/badge/Stardew_Valley-FFD58E.svg?logo=stardewvalley)](https://stardewvalleywiki.com/Stardew_Valley)
 [![SMAPI C#](https://custom-icon-badges.demolab.com/badge/SMAPI-C%23-%23239120.svg?logo=smapi)](https://stardewvalleywiki.com/Modding:Modder_Guide/Get_Started)
-[![Yet Another Content Patcher YAML](https://custom-icon-badges.demolab.com/badge/Yet_Another_Content_Patcher-YAML-CB171E.svg?logo=smapi)](https://github.com/linkoid/Stardew.YetAnother.ContentPatcher)
+[![YAML Adapter for Content Patcher YAML](https://custom-icon-badges.demolab.com/badge/YAML_Adapter_for_Content_Patcher-YAML-CB171E.svg?logo=smapi)](https://github.com/linkoid/Stardew.YetAnother.ContentPatcher)
 
 [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/linkoid/Stardew.YetAnother.ContentPatcher)
 [![License](https://img.shields.io/github/license/linkoid/Stardew.YetAnother.ContentPatcher)](https://github.com/linkoid/Stardew.YetAnother.ContentPatcher/tree/main?tab=MIT-1-ov-file)
 
 
-Yet Another Content Patcher is a framework that allows creating [Content Patcher](https://www.nexusmods.com/stardewvalley/mods/1915) content packs using human-friendly [YAML](https://yaml.org/) instead of JSON.
+YAML Adapter for Content Patcher is a framework that allows creating [Content Patcher](https://www.nexusmods.com/stardewvalley/mods/1915) content packs using human-friendly [YAML](https://yaml.org/) instead of JSON.
 
 ### Installation
 1. Install the [latest version of SMAPI](https://smapi.io/).
 2. Install the [latest version of Content Patcher](https://www.nexusmods.com/stardewvalley/mods/1915).
 3. Install this mod from [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/0).
-4. Unzip any Yet Another Content Patcher content packs into `Mods` to install them.
+4. Unzip any YACP content packs into `Mods` to install them.
 5. Run the game using SMAPI.
 
 
