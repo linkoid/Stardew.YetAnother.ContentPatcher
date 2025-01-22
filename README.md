@@ -15,7 +15,7 @@ YAML Adapter for Content Patcher is a framework that allows creating [Content Pa
 ### Installation
 1. Install the [latest version of SMAPI](https://smapi.io/).
 2. Install the [latest version of Content Patcher](https://www.nexusmods.com/stardewvalley/mods/1915).
-3. Install this mod from [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/0).
+3. Install this mod from [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/27472).
 4. Unzip any YACP content packs into `Mods` to install them.
 5. Run the game using SMAPI.
 
